@@ -19,6 +19,17 @@ public class Workflow {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer workflowId;
 
-//    @OneToMany(mappedBy = "dig")
-//    private List<Dig> digs;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "workflow_dig",
+            joinColumns = @JoinColumn(name = "workflow_id"),
+            inverseJoinColumns = @JoinColumn(name = "dig_id"))
+    private List<Dig> digs;
+
+    private String workflowName;
+    private boolean repairRequired;
+
+    public Workflow(String workflowName) {
+        this.workflowName = workflowName;
+    }
 }

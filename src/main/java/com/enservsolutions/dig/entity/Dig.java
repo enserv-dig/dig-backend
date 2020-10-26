@@ -18,11 +18,10 @@ public class Dig {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+//    @JsonIgnore
     private Integer digId;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "workflow_id", nullable = false)
+//    @ManyToMany(mappedBy = "digs")
 //    private Workflow workflow;
 
     private Integer anomalyId;
