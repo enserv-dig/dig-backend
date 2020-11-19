@@ -1,6 +1,7 @@
 package com.enservsolutions.dig.web.controller;
 
 import com.enservsolutions.dig.dto.DigCreateRequest;
+import com.enservsolutions.dig.dto.dig.DigWorkspaceRes;
 import com.enservsolutions.dig.entity.Dig;
 import com.enservsolutions.dig.service.DigService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,6 +32,12 @@ public class DigController {
     @GetMapping()
     public ResponseEntity<List<Dig>> getAllDigs() {
         return ResponseEntity.status(HttpStatus.OK).body(digService.getAllDigs());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<DigWorkspaceRes> getDig(@PathVariable Integer id) {
+        DigWorkspaceRes response = new DigWorkspaceRes(digService.getDig(id), digService.getPaperworks(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("json")

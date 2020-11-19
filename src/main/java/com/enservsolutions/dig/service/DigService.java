@@ -2,14 +2,19 @@ package com.enservsolutions.dig.service;
 
 import com.enservsolutions.dig.dto.DigCreateRequest;
 import com.enservsolutions.dig.entity.Dig;
+import com.enservsolutions.dig.entity.Paperwork;
+import com.enservsolutions.dig.entity.Workflow;
 import com.enservsolutions.dig.repository.DigRepository;
+import com.enservsolutions.dig.repository.WorkflowRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Paper;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -17,10 +22,12 @@ import java.util.List;
 public class DigService {
 
     private DigRepository digRepository;
+    private WorkflowRepository workflowRepository;
 
     @Autowired
-    public DigService(DigRepository digRepository) {
+    public DigService(DigRepository digRepository, WorkflowRepository workflowRepository) {
         this.digRepository = digRepository;
+        this.workflowRepository = workflowRepository;
     }
 
 
@@ -92,10 +99,31 @@ public class DigService {
         return (List<Dig>) digRepository.findAll();
     }
 
+    public Dig getDig(Integer digId) {
+        return this.digRepository.findById(digId).get();
+    }
+
     public String getAllDigsJson() throws JsonProcessingException {
         List<Dig> digs = (List<Dig>) digRepository.findAll();
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(digs);
         return jsonString;
+    }
+
+    public List<Paperwork> getPaperworks(Integer digId) {
+        List<Paperwork> paperworks = null;
+        Dig dig = digRepository.findById(digId).get();
+        log.info(String.valueOf(dig));
+        if(dig != null) {
+            List<Workflow> workflows = (List<Workflow>) workflowRepository.findAll();
+            log.info(String.valueOf(workflows));
+            for (Workflow workflow : workflows) {
+                if(workflow.getDigs().contains(dig)) {
+                    paperworks = workflow.getPaperworks();
+                }
+            }
+        }
+        log.info(String.valueOf(paperworks));
+        return paperworks;
     }
 }

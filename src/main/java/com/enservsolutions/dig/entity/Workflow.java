@@ -26,6 +26,14 @@ public class Workflow {
             inverseJoinColumns = @JoinColumn(name = "dig_id"))
     private List<Dig> digs;
 
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "workflow_paperwork",
+            joinColumns = @JoinColumn(name = "workflow_id"),
+            inverseJoinColumns = @JoinColumn(name = "paperwork_id"))
+    private List<Paperwork> paperworks;
+
     private String workflowName;
     private boolean repairRequired;
 
