@@ -21,9 +21,6 @@ public class ExcavationSafety {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer worksheetId;
 
-
-    enum protection {sloping, trench, other};
-
     private String dateFrom;
     private String dateTo;
     private String description;
