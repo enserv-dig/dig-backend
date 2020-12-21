@@ -34,6 +34,16 @@ public class DigController {
         return ResponseEntity.status(HttpStatus.OK).body(digService.getAllDigs());
     }
 
+    @GetMapping("na")
+    public ResponseEntity<List<Dig>> getNonAssignedDigs() {
+        return ResponseEntity.status(HttpStatus.OK).body(digService.getNonAssignedDigs());
+    }
+
+    @GetMapping("work")
+    public ResponseEntity<List<Dig>> getDigsWithWork() {
+        return ResponseEntity.status(HttpStatus.OK).body(digService.getDigsWithWork());
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<DigWorkspaceRes> getDig(@PathVariable Integer id) {
         DigWorkspaceRes response = new DigWorkspaceRes(digService.getDig(id), digService.getPaperworks(id));

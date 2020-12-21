@@ -5,10 +5,12 @@ import com.enservsolutions.dig.entity.Dig;
 import com.enservsolutions.dig.entity.Paperwork;
 import com.enservsolutions.dig.entity.Workflow;
 import com.enservsolutions.dig.repository.DigRepository;
+import com.enservsolutions.dig.repository.WorkPermitRepository;
 import com.enservsolutions.dig.repository.WorkflowRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +99,30 @@ public class DigService {
 
     public List<Dig> getAllDigs() {
         return (List<Dig>) digRepository.findAll();
+    }
+
+    public List<Dig> getNonAssignedDigs() {
+        List<Dig> allDigs = getAllDigs();
+        List<Workflow> allWorkflows = (List<Workflow>) workflowRepository.findAll();
+        for(Workflow wf: allWorkflows) {
+            List<Dig> digs = wf.getDigs();
+            for (Dig dig : digs) {
+                allDigs.remove(dig);
+            }
+        }
+        return allDigs;
+    }
+
+    public List<Dig> getDigsWithWork() {
+        List<Dig> digsWithWork = new ArrayList<>();
+        List<Workflow> allWorkflows = (List<Workflow>) workflowRepository.findAll();
+        for(Workflow wf: allWorkflows) {
+            List<Dig> digs = wf.getDigs();
+            for (Dig dig : digs) {
+                digsWithWork.add(dig);
+            }
+        }
+    return digsWithWork;
     }
 
     public Dig getDig(Integer digId) {

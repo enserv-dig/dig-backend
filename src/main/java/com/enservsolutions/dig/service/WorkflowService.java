@@ -1,5 +1,6 @@
 package com.enservsolutions.dig.service;
 
+import com.enservsolutions.dig.dto.workflow.AssignDigToWorkflowReq;
 import com.enservsolutions.dig.dto.workflow.CreateWorkflowReq;
 import com.enservsolutions.dig.dto.workflow.UpdateWorkflowReq;
 import com.enservsolutions.dig.entity.Dig;
@@ -53,6 +54,20 @@ public class WorkflowService {
             workflow.setRepairRequired(false);
         }
         workflowRepository.save(workflow);
+        return workflow;
+    }
+
+    public Workflow setDigsToExistingWorkflow(AssignDigToWorkflowReq assignDigToWorkflowReq) {
+        Workflow workflow = workflowRepository.findById(assignDigToWorkflowReq.getWorkflowId()).get();
+        if(workflow != null) {
+            List<Dig> digs = workflow.getDigs();
+            List<Integer> ids  = assignDigToWorkflowReq.getDigIds();
+            ids.forEach(data -> {
+                digs.add(this.digRepository.findById(data).get());
+            });
+            workflow.setDigs(digs);
+            workflowRepository.save(workflow);
+        }
         return workflow;
     }
 

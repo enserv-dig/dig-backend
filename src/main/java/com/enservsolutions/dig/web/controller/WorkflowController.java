@@ -1,5 +1,6 @@
 package com.enservsolutions.dig.web.controller;
 
+import com.enservsolutions.dig.dto.workflow.AssignDigToWorkflowReq;
 import com.enservsolutions.dig.dto.workflow.CreateWorkflowReq;
 import com.enservsolutions.dig.dto.workflow.UpdateWorkflowReq;
 import com.enservsolutions.dig.entity.Workflow;
@@ -22,6 +23,11 @@ public class WorkflowController {
     @PostMapping
     public ResponseEntity<Workflow> createWorkflow(@RequestBody CreateWorkflowReq createWorkflowReq) {
         return ResponseEntity.status(HttpStatus.CREATED).body(workflowService.createWorkflow(createWorkflowReq));
+    }
+
+    @PostMapping("/set")
+    public ResponseEntity<Workflow> assignDigsToExistingWorkflow(@RequestBody AssignDigToWorkflowReq assignDigToWorkflowReq) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(workflowService.setDigsToExistingWorkflow(assignDigToWorkflowReq));
     }
 
     @GetMapping
