@@ -1,5 +1,6 @@
 package com.enservsolutions.dig.web.controller;
 
+import com.enservsolutions.dig.dto.UpdateClientReq;
 import com.enservsolutions.dig.dto.client.CreateClientReq;
 import com.enservsolutions.dig.dto.client.CreateClientRes;
 import com.enservsolutions.dig.entity.Client;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -34,6 +36,15 @@ public class ClientController {
         Client client = clientService.saveClient(createClientReq);
         CreateClientRes response = new CreateClientRes(client.getClientName(), client.isActiveClient());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("update")
+    public ResponseEntity<Client> updateClientStatus(@RequestBody UpdateClientReq updateClientReq) {
+        Optional<Client> client = clientService.getClient(updateClientReq.getClientId());
+        if(client.isPresent()) {
+            clientService.switchStatus(client.get());
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(client.get());
     }
 
 }

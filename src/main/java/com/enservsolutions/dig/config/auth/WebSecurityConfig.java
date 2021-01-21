@@ -48,6 +48,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/authenticate").permitAll()
                 .antMatchers( "/signup").permitAll()
                 .antMatchers("/check-username").permitAll()
+                .antMatchers( "/reset").permitAll()
+                .antMatchers( "/reset/confirm").permitAll()
+
+
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

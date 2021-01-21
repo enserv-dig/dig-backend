@@ -1,6 +1,7 @@
 package com.enservsolutions.dig.service;
 
 import com.enservsolutions.dig.dto.pipeline.CreatePipelineReq;
+import com.enservsolutions.dig.entity.Client;
 import com.enservsolutions.dig.entity.Facility;
 import com.enservsolutions.dig.entity.Pipeline;
 import com.enservsolutions.dig.repository.FacilityRepository;
@@ -49,7 +50,15 @@ public class PipelineService {
         return pipeline;
     }
 
+    public Optional<Pipeline> getPipeline(Integer pipelineId) {
+        return pipelineRepository.findById(pipelineId);
+    }
 
+    public Pipeline switchStatus(Pipeline pipeline) {
+        pipeline.setActivePipeline(!pipeline.isActivePipeline());
+        pipelineRepository.save(pipeline);
+        return pipeline;
+    }
 
 
 }

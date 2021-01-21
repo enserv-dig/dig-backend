@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -33,5 +34,15 @@ public class ClientService {
         }
         Client client = new Client(createClientReq.getClientName(), status);
         return clientRepository.save(client);
+    }
+
+    public Optional<Client> getClient(Integer clientId) {
+        return clientRepository.findById(clientId);
+    }
+
+    public Client switchStatus(Client client) {
+        client.setActiveClient(!client.isActiveClient());
+        clientRepository.save(client);
+        return client;
     }
 }

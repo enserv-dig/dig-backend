@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -40,4 +41,15 @@ public class FacilityService {
         }
         return facility;
     }
+
+    public Optional<Facility> getFacility(Integer facilityId) {
+        return facilityRepository.findById(facilityId);
+    }
+
+    public Facility switchStatus(Facility facility) {
+        facility.setActiveFacility(!facility.isActiveFacility());
+        facilityRepository.save(facility);
+        return facility;
+    }
+
 }
