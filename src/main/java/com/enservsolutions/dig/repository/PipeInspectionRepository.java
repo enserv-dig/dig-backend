@@ -5,6 +5,5 @@ import com.enservsolutions.dig.entity.WorkPermit;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface PipeInspectionRepository extends CrudRepository<PipeInspection, Integer> {
 }
