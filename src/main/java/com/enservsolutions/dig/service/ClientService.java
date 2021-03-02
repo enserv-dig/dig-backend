@@ -3,8 +3,11 @@ package com.enservsolutions.dig.service;
 import com.enservsolutions.dig.dto.client.CreateClientReq;
 import com.enservsolutions.dig.entity.Client;
 import com.enservsolutions.dig.repository.ClientRepository;
+import com.enservsolutions.dig.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.Optional;
 public class ClientService {
 
     private ClientRepository clientRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public ClientService(ClientRepository clientRepo){
@@ -24,6 +28,12 @@ public class ClientService {
     public List<Client> getClients() {
         return (List<Client>) clientRepository.findAll();
     }
+
+//    public List<Client> getFilteredClients() {
+//        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String username = principal.getUsername();
+//        Optional<com.enservsolutions.dig.entity.User> user = userRepository.findByUsername(username);
+//    }
 
     public Client saveClient(CreateClientReq createClientReq) {
         boolean status = false;

@@ -162,6 +162,7 @@
 <!--				</configuration>-->
 <!--			</plugin>-->
 		</plugins>
+		<finalName>dig</finalName>
 	</build>
 
 </project>

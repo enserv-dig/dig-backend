@@ -1,6 +1,7 @@
 package com.enservsolutions.dig.service;
 
 import com.enservsolutions.dig.entity.User;
+import com.enservsolutions.dig.repository.RoleRepository;
 import com.enservsolutions.dig.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,16 +12,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
 @AllArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -34,5 +33,14 @@ public class MyUserDetailsService implements UserDetailsService {
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
+
+
+//    private Set<SimpleGrantedAuthority> getAuthority(User user) {
+//        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+//        user.getRoles().forEach(role -> {
+//            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+//        });
+//        return authorities;
+//    }
 
 }

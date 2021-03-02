@@ -1,6 +1,7 @@
 package com.enservsolutions.dig.web.controller;
 
 import com.enservsolutions.dig.dto.*;
+import com.enservsolutions.dig.repository.UserRepository;
 import com.enservsolutions.dig.service.AuthService;
 import com.enservsolutions.dig.service.MyUserDetailsService;
 import com.enservsolutions.dig.util.JwtUtil;
@@ -17,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Slf4j
 @RestController
 @CrossOrigin
@@ -28,6 +31,7 @@ public class AuthController {
     private final JwtUtil jwtTokenUtil;
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @GetMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
@@ -63,6 +67,14 @@ public class AuthController {
     public ResponseEntity<User> getUser() {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK).body(principal);
+    }
+
+    @GetMapping("/get-user-info")
+    public ResponseEntity<com.enservsolutions.dig.entity.User> getUserInfo() {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getUsername();
+        Optional<com.enservsolutions.dig.entity.User> user = userRepository.findByUsername(username);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user.get());
     }
 }
 

@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/check-username").permitAll()
                 .antMatchers( "/reset").permitAll()
                 .antMatchers( "/reset/confirm").permitAll()
+                .antMatchers( "/client").permitAll()
 
 
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
