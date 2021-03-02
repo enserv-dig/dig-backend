@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers( "/authenticate").permitAll()
                 .antMatchers( "/signup").permitAll()
@@ -52,12 +53,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/reset/confirm").permitAll()
                 .antMatchers( "/client").permitAll()
                 .antMatchers( "/actuator").permitAll()
-
-
-
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers( "/authenticate").permitAll()
+//                .antMatchers( "/signup").permitAll()
+//                .antMatchers("/check-username").permitAll()
+//                .antMatchers( "/reset").permitAll()
+//                .antMatchers( "/reset/confirm").permitAll()
+//                .antMatchers( "/client").permitAll()
+//                .antMatchers( "/actuator").permitAll()
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
