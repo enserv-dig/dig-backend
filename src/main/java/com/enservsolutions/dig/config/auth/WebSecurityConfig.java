@@ -51,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/reset").permitAll()
                 .antMatchers( "/reset/confirm").permitAll()
                 .antMatchers( "/client").permitAll()
+                .antMatchers( "/actuator").permitAll()
+
 
 
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
