@@ -70,8 +70,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
 //                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        
+        http.cors().configurationSource(corsConfigurationSource());
 
     }
+    
+    CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    List<String> allowOrigins = Arrays.asList("*");
+    configuration.setAllowedOrigins(allowOrigins);
+    configuration.setAllowedMethods(singletonList("*"));
+    configuration.setAllowedHeaders(singletonList("*"));
+    //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+    configuration.setAllowCredentials(true);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
 
     @Override
     @Bean
